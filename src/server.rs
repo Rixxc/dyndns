@@ -76,6 +76,9 @@ fn update(
 
     let p: &dyn Provider = match domain_config.provider {
         config::ProviderType::HetznerProvider => providers.hetzner_provider.as_ref().unwrap(),
+        config::ProviderType::HetznerCloudProvider => {
+            providers.hetzner_cloud_provider.as_ref().unwrap()
+        }
         config::ProviderType::MockProvider => providers.mock_provider.as_ref().unwrap(),
     };
 
@@ -106,8 +109,8 @@ fn update(
     let mut status_code = Status::Ok;
     let mut response: String = String::default();
 
-    if parsed_ipv4.is_some() {
-        let res = update_ipv4(p, &parsed_ipv4.unwrap(), domain_config);
+    if let Some(ipv4) = parsed_ipv4 {
+        let res = update_ipv4(p, &ipv4, domain_config);
 
         match res {
             Ok(s) => {
@@ -180,6 +183,7 @@ mod tests {
                 })
                 .manage(Providers {
                     hetzner_provider: None,
+                    hetzner_cloud_provider: None,
                     mock_provider: mock_provider,
                 }),
         )

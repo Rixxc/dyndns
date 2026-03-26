@@ -13,6 +13,7 @@ use std::{
 
 use config::{Config, Providers};
 use providers::hetzner::HetznerProvider;
+use providers::hetzner_cloud::HetznerCloudProvider;
 use simple_logger::SimpleLogger;
 mod config;
 pub mod providers;
@@ -41,6 +42,7 @@ fn load_config(path: &Path) -> Result<config::User, Box<dyn Error>> {
 }
 
 #[tokio::main]
+#[allow(clippy::result_large_err)]
 pub async fn main() -> Result<(), rocket::Error> {
     SimpleLogger::new()
         .with_level(log::LevelFilter::Warn)
@@ -59,6 +61,7 @@ pub async fn main() -> Result<(), rocket::Error> {
 
     let providers = Providers {
         hetzner_provider: Some(HetznerProvider::new()),
+        hetzner_cloud_provider: Some(HetznerCloudProvider::new()),
         mock_provider: None,
     };
 

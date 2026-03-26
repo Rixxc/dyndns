@@ -4,11 +4,15 @@
 
 use serde::Deserialize;
 
-use crate::providers::{hetzner::HetznerProvider, MockProvider};
+use crate::providers::{
+    hetzner::HetznerProvider, hetzner_cloud::HetznerCloudProvider, MockProvider,
+};
 
 #[derive(PartialEq, Eq, Deserialize, strum_macros::Display, Clone, Copy)]
+#[allow(clippy::enum_variant_names)]
 pub enum ProviderType {
     HetznerProvider,
+    HetznerCloudProvider,
     MockProvider,
 }
 
@@ -40,6 +44,7 @@ pub struct Config {
 
 pub struct Providers {
     pub hetzner_provider: Option<HetznerProvider>,
+    pub hetzner_cloud_provider: Option<HetznerCloudProvider>,
     pub mock_provider: Option<MockProvider>,
 }
 

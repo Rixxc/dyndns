@@ -15,6 +15,7 @@ use mockall::automock;
 use crate::config::DomainConfig;
 
 pub mod hetzner;
+pub mod hetzner_cloud;
 
 #[derive(Debug)]
 pub struct RecordNotFoundError;
